@@ -6,7 +6,7 @@
 // Não precisa instalar nenhum servidor de banco de dados!
 // ============================================================
 
-const Database = require('better-sqlite3');
+const { DatabaseSync } = require('node:sqlite');
 
 // Cria (ou abre, se já existir) o arquivo do banco
 const db = new Database('estoque.db');
