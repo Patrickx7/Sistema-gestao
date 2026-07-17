@@ -9,7 +9,7 @@
 const { DatabaseSync } = require('node:sqlite');
 
 // Cria (ou abre, se já existir) o arquivo do banco
-const db = new Database('estoque.db');
+const db = new DatabaseSync('estoque.db');
 
 // Cria a tabela de produtos, caso ela ainda não exista.
 // Campos:
