@@ -1,6 +1,12 @@
-# 📦 Sistema de Gestão de Estoque
+# ✅ Gerenciador de Tarefas da Dupla
 
 Projeto de estudos em dupla: **front-end** (HTML, CSS, JS) + **back-end** (Node.js).
+Um gerenciador de tarefas e anotações que nós mesmos usamos no dia a dia:
+um **quadro kanban com cards** (Pendente / Fazendo / Concluída), com
+tarefas que podem ser atribuídas entre os usuários.
+
+> A primeira versão (semana 1) mostra as tarefas numa tabela simples —
+> na semana 2 do roteiro ela vira o quadro kanban.
 
 ## Estrutura
 
@@ -10,12 +16,12 @@ sistema-gestao/
 │   ├── server.js       → ponto de entrada do servidor
 │   ├── db.js           → conexão e criação das tabelas
 │   └── routes/
-│       └── produtos.js → rotas do CRUD de produtos
+│       └── tarefas.js  → rotas do CRUD de tarefas
 ├── frontend/           → telas em HTML, CSS e JavaScript puro
 │   ├── index.html
 │   ├── style.css
 │   └── app.js          → chamadas fetch() para a API
-├── TAREFAS.md          → roteiro das semanas 1, 2 e 3
+├── TAREFAS.md          → roteiro das semanas 1 a 4
 └── README.md
 ```
 
@@ -30,10 +36,11 @@ npm run dev       # inicia o servidor com reinício automático
 ```
 
 O servidor sobe em **http://localhost:3000**.
-Teste no navegador: http://localhost:3000/produtos
+Teste no navegador: http://localhost:3000/tarefas
 
-O banco de dados é o arquivo `estoque.db`, criado automaticamente
+O banco de dados é o arquivo `tarefas.db`, criado automaticamente
 na primeira execução dentro da pasta `backend/`.
+(Se ainda existir o `estoque.db` do projeto antigo, pode apagar.)
 
 ### 2. Front-end
 
@@ -47,27 +54,32 @@ em "Go Live" — a página recarrega sozinha quando você salva.
 
 ## Rotas da API (o "contrato" entre front e back)
 
-| Método | Rota            | O que faz                    |
-|--------|-----------------|------------------------------|
-| GET    | /produtos       | Lista todos os produtos      |
-| GET    | /produtos/:id   | Busca um produto pelo id     |
-| POST   | /produtos       | Cria um produto novo         |
-| PUT    | /produtos/:id   | Atualiza um produto          |
-| DELETE | /produtos/:id   | Exclui um produto            |
+| Método | Rota           | O que faz                    |
+|--------|----------------|------------------------------|
+| GET    | /tarefas       | Lista todas as tarefas       |
+| GET    | /tarefas/:id   | Busca uma tarefa pelo id     |
+| POST   | /tarefas       | Cria uma tarefa nova         |
+| PUT    | /tarefas/:id   | Atualiza uma tarefa          |
+| DELETE | /tarefas/:id   | Exclui uma tarefa            |
 
 Formato do JSON enviado no POST/PUT:
 
 ```json
 {
-  "nome": "Teclado mecânico",
-  "descricao": "Switch azul, ABNT2",
-  "preco": 199.90,
-  "quantidade": 15
+  "titulo": "Estudar rotas do Express",
+  "descricao": "Ler a documentação e testar no Postman",
+  "status": "pendente",
+  "prioridade": "alta"
 }
 ```
+
+Valores aceitos:
+- `status`: `pendente` | `fazendo` | `concluida`
+- `prioridade`: `baixa` | `media` | `alta`
 
 ## Próximos passos
 
 Sigam o arquivo **TAREFAS.md** — ele tem o roteiro completo das
-semanas 1, 2 e 3, com tarefas separadas por papel (back/front)
-e desafios extras.
+semanas 1 a 4, com tarefas separadas por papel (back/front)
+e desafios extras: quadro kanban com cards, usuários, atribuição
+de tarefas, anotações e dashboard.

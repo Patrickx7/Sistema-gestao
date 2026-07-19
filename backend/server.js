@@ -12,7 +12,7 @@
 const express = require('express');
 const cors = require('cors');
 
-const rotasProdutos = require('./routes/produtos');
+const rotasTarefas = require('./routes/tarefas');
 
 const app = express();
 const PORTA = 3000;
@@ -31,14 +31,14 @@ app.use(express.json());
 
 // Rota de "saúde": serve para testar se o servidor está no ar
 app.get('/', (req, res) => {
-  res.json({ mensagem: 'API do sistema de gestão está no ar! 🚀' });
+  res.json({ mensagem: 'API do gerenciador de tarefas está no ar! 🚀' });
 });
 
-// Tudo que começar com /produtos vai para o arquivo routes/produtos.js
-app.use('/produtos', rotasProdutos);
+// Tudo que começar com /tarefas vai para o arquivo routes/tarefas.js
+app.use('/tarefas', rotasTarefas);
 
 // --- Inicia o servidor ---
 app.listen(PORTA, () => {
   console.log(`✅ Servidor rodando em http://localhost:${PORTA}`);
-  console.log(`   Teste no navegador: http://localhost:${PORTA}/produtos`);
+  console.log(`   Teste no navegador: http://localhost:${PORTA}/tarefas`);
 });

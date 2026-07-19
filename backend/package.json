@@ -1,7 +1,7 @@
 {
-  "name": "sistema-gestao-backend",
+  "name": "gerenciador-tarefas-backend",
   "version": "1.0.0",
-  "description": "API do sistema de gestão de estoque",
+  "description": "API do gerenciador de tarefas e anotações",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

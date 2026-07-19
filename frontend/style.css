@@ -1,5 +1,5 @@
 /* ============================================================
-   style.css - Estilos da tela de gestão de estoque
+   style.css - Estilos do gerenciador de tarefas
    Área do front-end: fique à vontade para deixar com a sua cara!
    ============================================================ */
 
@@ -81,15 +81,18 @@ label {
   font-weight: 600;
 }
 
-input {
+input,
+select {
   width: 100%;
   padding: 10px 12px;
   border: 1px solid var(--cinza-borda);
   border-radius: 6px;
   font-size: 0.95rem;
+  background-color: var(--branco);
 }
 
-input:focus {
+input:focus,
+select:focus {
   outline: 2px solid var(--azul);
   border-color: var(--azul);
 }
@@ -167,6 +170,24 @@ th {
   background-color: var(--azul-claro);
   color: var(--azul-escuro);
 }
+
+/* ---------- Etiquetas de status e prioridade ---------- */
+.etiqueta {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.status-pendente   { background-color: #fdf3e0; color: #b07a1e; }
+.status-fazendo    { background-color: var(--azul-claro); color: var(--azul); }
+.status-concluida  { background-color: #e3f5ea; color: var(--verde); }
+
+.prioridade-baixa  { background-color: #eef1f5; color: var(--cinza-texto); }
+.prioridade-media  { background-color: var(--azul-claro); color: var(--azul); }
+.prioridade-alta   { background-color: #fdeaea; color: var(--vermelho); }
 
 .acoes button {
   background: none;

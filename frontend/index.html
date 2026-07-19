@@ -3,45 +3,53 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gestão de Estoque</title>
+  <title>Gerenciador de Tarefas</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header class="topo">
-    <h1>📦 Gestão de Estoque</h1>
-    <p class="subtitulo">Cadastre e acompanhe seus produtos</p>
+    <h1>✅ Gerenciador de Tarefas</h1>
+    <p class="subtitulo">Organize o dia a dia da dupla</p>
   </header>
 
   <main class="container">
     <!-- ============ FORMULÁRIO DE CADASTRO / EDIÇÃO ============ -->
     <section class="cartao">
-      <h2 id="titulo-form">Novo produto</h2>
+      <h2 id="titulo-form">Nova tarefa</h2>
 
       <!-- Não usamos <form> com submit tradicional para evitar
            recarregar a página. O JS cuida do clique do botão. -->
       <div class="formulario">
         <!-- Campo escondido que guarda o id quando estamos EDITANDO -->
-        <input type="hidden" id="produto-id" />
+        <input type="hidden" id="tarefa-id" />
 
-        <label for="nome">Nome *</label>
-        <input type="text" id="nome" placeholder="Ex: Teclado mecânico" />
+        <label for="titulo">Título *</label>
+        <input type="text" id="titulo" placeholder="Ex: Estudar rotas do Express" />
 
         <label for="descricao">Descrição</label>
-        <input type="text" id="descricao" placeholder="Ex: Switch azul, ABNT2" />
+        <input type="text" id="descricao" placeholder="Ex: Ler a doc e testar no Postman" />
 
         <div class="linha-dupla">
           <div>
-            <label for="preco">Preço (R$)</label>
-            <input type="number" id="preco" min="0" step="0.01" placeholder="0,00" />
+            <label for="prioridade">Prioridade</label>
+            <select id="prioridade">
+              <option value="baixa">Baixa</option>
+              <option value="media" selected>Média</option>
+              <option value="alta">Alta</option>
+            </select>
           </div>
           <div>
-            <label for="quantidade">Quantidade</label>
-            <input type="number" id="quantidade" min="0" step="1" placeholder="0" />
+            <label for="status">Status</label>
+            <select id="status">
+              <option value="pendente" selected>Pendente</option>
+              <option value="fazendo">Fazendo</option>
+              <option value="concluida">Concluída</option>
+            </select>
           </div>
         </div>
 
         <div class="botoes">
-          <button id="btn-salvar" class="btn btn-primario">Salvar produto</button>
+          <button id="btn-salvar" class="btn btn-primario">Salvar tarefa</button>
           <button id="btn-cancelar" class="btn btn-secundario escondido">Cancelar edição</button>
         </div>
 
@@ -49,26 +57,26 @@
       </div>
     </section>
 
-    <!-- ============ TABELA DE PRODUTOS ============ -->
+    <!-- ============ TABELA DE TAREFAS ============ -->
     <section class="cartao">
-      <h2>Produtos cadastrados</h2>
+      <h2>Tarefas</h2>
       <div class="tabela-wrapper">
         <table>
           <thead>
             <tr>
-              <th>Nome</th>
+              <th>Título</th>
               <th>Descrição</th>
-              <th>Preço</th>
-              <th>Qtd.</th>
+              <th>Prioridade</th>
+              <th>Status</th>
               <th>Ações</th>
             </tr>
           </thead>
-          <tbody id="lista-produtos">
+          <tbody id="lista-tarefas">
             <!-- As linhas são criadas pelo app.js -->
           </tbody>
         </table>
         <p id="lista-vazia" class="lista-vazia escondido">
-          Nenhum produto cadastrado ainda. Adicione o primeiro no formulário acima!
+          Nenhuma tarefa ainda. Adicione a primeira no formulário acima!
         </p>
       </div>
     </section>

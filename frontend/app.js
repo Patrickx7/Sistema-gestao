@@ -9,72 +9,76 @@
 // Endereço base da API. Se o back-end mudar de porta, altere aqui.
 const API_URL = 'http://localhost:3000';
 
+// Textos "bonitos" para mostrar na tela (o banco guarda o valor cru)
+const NOMES_STATUS = { pendente: 'Pendente', fazendo: 'Fazendo', concluida: 'Concluída' };
+const NOMES_PRIORIDADE = { baixa: 'Baixa', media: 'Média', alta: 'Alta' };
+
 // --- Atalhos para os elementos da tela ---
-const campoId = document.getElementById('produto-id');
-const campoNome = document.getElementById('nome');
+const campoId = document.getElementById('tarefa-id');
+const campoTitulo = document.getElementById('titulo');
 const campoDescricao = document.getElementById('descricao');
-const campoPreco = document.getElementById('preco');
-const campoQuantidade = document.getElementById('quantidade');
+const campoPrioridade = document.getElementById('prioridade');
+const campoStatus = document.getElementById('status');
 const btnSalvar = document.getElementById('btn-salvar');
 const btnCancelar = document.getElementById('btn-cancelar');
 const tituloForm = document.getElementById('titulo-form');
-const listaProdutos = document.getElementById('lista-produtos');
+const listaTarefas = document.getElementById('lista-tarefas');
 const listaVazia = document.getElementById('lista-vazia');
 const mensagem = document.getElementById('mensagem');
 
 // ============================================================
-// 1. LISTAR produtos (GET /produtos)
+// 1. LISTAR tarefas (GET /tarefas)
 // ============================================================
-async function carregarProdutos() {
+async function carregarTarefas() {
   try {
-    const resposta = await fetch(`${API_URL}/produtos`);
-    const produtos = await resposta.json();
+    const resposta = await fetch(`${API_URL}/tarefas`);
+    const tarefas = await resposta.json();
 
     // Limpa a tabela antes de redesenhar
-    listaProdutos.innerHTML = '';
+    listaTarefas.innerHTML = '';
 
     // Mostra ou esconde o aviso de "lista vazia"
-    listaVazia.classList.toggle('escondido', produtos.length > 0);
+    listaVazia.classList.toggle('escondido', tarefas.length > 0);
 
-    // Cria uma linha <tr> para cada produto
-    for (const produto of produtos) {
+    // Cria uma linha <tr> para cada tarefa
+    for (const tarefa of tarefas) {
       const linha = document.createElement('tr');
 
       linha.innerHTML = `
-        <td>${produto.nome}</td>
-        <td>${produto.descricao || '-'}</td>
-        <td>R$ ${Number(produto.preco).toFixed(2).replace('.', ',')}</td>
-        <td>${produto.quantidade}</td>
+        <td>${tarefa.titulo}</td>
+        <td>${tarefa.descricao || '-'}</td>
+        <td><span class="etiqueta prioridade-${tarefa.prioridade}">${NOMES_PRIORIDADE[tarefa.prioridade]}</span></td>
+        <td><span class="etiqueta status-${tarefa.status}">${NOMES_STATUS[tarefa.status]}</span></td>
         <td class="acoes">
-          <button title="Editar" data-acao="editar" data-id="${produto.id}">✏️</button>
-          <button title="Excluir" data-acao="excluir" data-id="${produto.id}">🗑️</button>
+          <button title="Editar" data-acao="editar" data-id="${tarefa.id}">✏️</button>
+          <button title="Excluir" data-acao="excluir" data-id="${tarefa.id}">🗑️</button>
         </td>
       `;
 
-      listaProdutos.appendChild(linha);
+      listaTarefas.appendChild(linha);
     }
   } catch (erro) {
-    mostrarMensagem('Não foi possível carregar os produtos. O servidor está rodando?', 'erro');
+    mostrarMensagem('Não foi possível carregar as tarefas. O servidor está rodando?', 'erro');
   }
 }
 
 // ============================================================
-// 2. SALVAR produto (POST para criar, PUT para editar)
+// 2. SALVAR tarefa (POST para criar, PUT para editar)
 // ============================================================
-async function salvarProduto() {
+async function salvarTarefa() {
   // Monta o objeto com os dados do formulário
   const dados = {
-    nome: campoNome.value,
+    titulo: campoTitulo.value,
     descricao: campoDescricao.value,
-    preco: campoPreco.value,
-    quantidade: campoQuantidade.value,
+    prioridade: campoPrioridade.value,
+    status: campoStatus.value,
   };
 
   // Se o campo escondido tem um id, estamos EDITANDO. Senão, CRIANDO.
   const id = campoId.value;
   const estaEditando = id !== '';
 
-  const url = estaEditando ? `${API_URL}/produtos/${id}` : `${API_URL}/produtos`;
+  const url = estaEditando ? `${API_URL}/tarefas/${id}` : `${API_URL}/tarefas`;
   const metodo = estaEditando ? 'PUT' : 'POST';
 
   try {
@@ -88,35 +92,35 @@ async function salvarProduto() {
 
     // resposta.ok é true quando o status é 200-299
     if (!resposta.ok) {
-      mostrarMensagem(corpo.erro || 'Erro ao salvar o produto.', 'erro');
+      mostrarMensagem(corpo.erro || 'Erro ao salvar a tarefa.', 'erro');
       return;
     }
 
     mostrarMensagem(
-      estaEditando ? 'Produto atualizado!' : 'Produto cadastrado!',
+      estaEditando ? 'Tarefa atualizada!' : 'Tarefa criada!',
       'sucesso'
     );
     limparFormulario();
-    carregarProdutos(); // recarrega a tabela
+    carregarTarefas(); // recarrega a tabela
   } catch (erro) {
     mostrarMensagem('Falha na conexão com o servidor.', 'erro');
   }
 }
 
 // ============================================================
-// 3. EDITAR: preenche o formulário com os dados do produto
+// 3. EDITAR: preenche o formulário com os dados da tarefa
 // ============================================================
 async function iniciarEdicao(id) {
-  const resposta = await fetch(`${API_URL}/produtos/${id}`);
-  const produto = await resposta.json();
+  const resposta = await fetch(`${API_URL}/tarefas/${id}`);
+  const tarefa = await resposta.json();
 
-  campoId.value = produto.id;
-  campoNome.value = produto.nome;
-  campoDescricao.value = produto.descricao;
-  campoPreco.value = produto.preco;
-  campoQuantidade.value = produto.quantidade;
+  campoId.value = tarefa.id;
+  campoTitulo.value = tarefa.titulo;
+  campoDescricao.value = tarefa.descricao;
+  campoPrioridade.value = tarefa.prioridade;
+  campoStatus.value = tarefa.status;
 
-  tituloForm.textContent = `Editando: ${produto.nome}`;
+  tituloForm.textContent = `Editando: ${tarefa.titulo}`;
   btnSalvar.textContent = 'Salvar alterações';
   btnCancelar.classList.remove('escondido');
 
@@ -125,19 +129,19 @@ async function iniciarEdicao(id) {
 }
 
 // ============================================================
-// 4. EXCLUIR produto (DELETE /produtos/:id)
+// 4. EXCLUIR tarefa (DELETE /tarefas/:id)
 // ============================================================
-async function excluirProduto(id) {
-  const confirmou = confirm('Tem certeza que deseja excluir este produto?');
+async function excluirTarefa(id) {
+  const confirmou = confirm('Tem certeza que deseja excluir esta tarefa?');
   if (!confirmou) return;
 
-  const resposta = await fetch(`${API_URL}/produtos/${id}`, { method: 'DELETE' });
+  const resposta = await fetch(`${API_URL}/tarefas/${id}`, { method: 'DELETE' });
 
   if (resposta.ok) {
-    mostrarMensagem('Produto excluído.', 'sucesso');
-    carregarProdutos();
+    mostrarMensagem('Tarefa excluída.', 'sucesso');
+    carregarTarefas();
   } else {
-    mostrarMensagem('Erro ao excluir o produto.', 'erro');
+    mostrarMensagem('Erro ao excluir a tarefa.', 'erro');
   }
 }
 
@@ -146,12 +150,12 @@ async function excluirProduto(id) {
 // ============================================================
 function limparFormulario() {
   campoId.value = '';
-  campoNome.value = '';
+  campoTitulo.value = '';
   campoDescricao.value = '';
-  campoPreco.value = '';
-  campoQuantidade.value = '';
-  tituloForm.textContent = 'Novo produto';
-  btnSalvar.textContent = 'Salvar produto';
+  campoPrioridade.value = 'media';
+  campoStatus.value = 'pendente';
+  tituloForm.textContent = 'Nova tarefa';
+  btnSalvar.textContent = 'Salvar tarefa';
   btnCancelar.classList.add('escondido');
 }
 
@@ -165,19 +169,19 @@ function mostrarMensagem(texto, tipo) {
 // ============================================================
 // Eventos (o que acontece quando o usuário interage)
 // ============================================================
-btnSalvar.addEventListener('click', salvarProduto);
+btnSalvar.addEventListener('click', salvarTarefa);
 btnCancelar.addEventListener('click', limparFormulario);
 
 // Um único "ouvinte" na tabela cuida dos cliques em editar/excluir.
 // Isso se chama "delegação de eventos" — pesquisem, é útil demais!
-listaProdutos.addEventListener('click', (evento) => {
+listaTarefas.addEventListener('click', (evento) => {
   const botao = evento.target.closest('button');
   if (!botao) return;
 
   const { acao, id } = botao.dataset;
   if (acao === 'editar') iniciarEdicao(id);
-  if (acao === 'excluir') excluirProduto(id);
+  if (acao === 'excluir') excluirTarefa(id);
 });
 
 // Carrega a lista assim que a página abre
-carregarProdutos();
+carregarTarefas();
