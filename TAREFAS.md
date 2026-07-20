@@ -13,12 +13,16 @@ que podem ser atribuídas de um para o outro.
 ## ✅ Semana 0 — Realinhamento (façam juntos, leva 1 dia)
 
 - [ ] Front dar `git pull` para receber o projeto novo
-- [ ] Apagar o banco antigo `backend/estoque.db` (se existir) — o novo
+- [x] Apagar o banco antigo `backend/estoque.db` (se existir) — o novo
       banco `tarefas.db` é criado sozinho na primeira execução
 - [ ] Ler juntos o novo "contrato" da API no `README.md` e o arquivo
       `routes/tarefas.js`, entendendo o que cada rota recebe e devolve
-- [ ] Combinar os valores fixos: status (`pendente`, `fazendo`,
+- [x] Combinar os valores fixos: status (`pendente`, `fazendo`,
       `concluida`) e prioridade (`baixa`, `media`, `alta`)
+
+      Valores fixos:
+      status:     pendente | fazendo | concluida
+      prioridade: baixa | media | alta
 
 ---
 
