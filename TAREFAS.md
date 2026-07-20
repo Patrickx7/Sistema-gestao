@@ -32,9 +32,9 @@ O código desta semana **já está pronto** neste projeto. A missão de vocês �
 **rodar, entender linha por linha e modificar**. Só se aprende mexendo!
 
 ### Back-end
-- [ ] Rodar o servidor (`npm install` e depois `npm run dev`) e testar
+- [x] Rodar o servidor (`npm install` e depois `npm run dev`) e testar
       todas as 5 rotas no Postman (GET, GET por id, POST, PUT, DELETE)
-- [ ] Ler `server.js`, `db.js` e `routes/tarefas.js` e escrever com as
+- [x] Ler `server.js`, `db.js` e `routes/tarefas.js` e escrever com as
       próprias palavras o que cada trecho faz (pode ser em comentários)
 - [ ] **Desafio:** adicionar o campo `prazo` (data limite) na tarefa
       (alterar a tabela no `db.js` e as rotas POST/PUT)
