@@ -1,6 +1,8 @@
 /* ============================================================
    style.css - Estilos do gerenciador de tarefas
-   Área do front-end: fique à vontade para deixar com a sua cara!
+   Conceito: "devlog" — cada tarefa é tratada como uma linha de
+   log da dupla, organizada em 3 colunas (pendente / fazendo /
+   concluída), com prioridade marcada como severidade de lint.
    ============================================================ */
 
 * {
@@ -10,66 +12,159 @@
 }
 
 :root {
-  --azul-escuro: #1e3a5f;
-  --azul: #2d6cdf;
-  --azul-claro: #eaf1fd;
-  --cinza-texto: #4a5568;
-  --cinza-borda: #d9e0ea;
-  --fundo: #f4f6fa;
-  --branco: #ffffff;
-  --vermelho: #d64545;
-  --verde: #2f9e5f;
+  /* ---- Base ---- */
+  --bg: #eef0f4;
+  --superficie: #ffffff;
+  --tinta: #1a2130;
+  --tinta-suave: #5b6472;
+  --borda: #dde1e8;
+
+  /* ---- Marca ---- */
+  --primaria: #3652cc;
+  --primaria-hover: #2a3fae;
+  --primaria-fraca: #e8ecfb;
+
+  /* ---- Status (colunas do quadro) ---- */
+  --pendente: #c97a2b;
+  --pendente-fraca: #fbf1e5;
+  --fazendo: #7c5ce0;
+  --fazendo-fraca: #f0ecfc;
+  --concluida: #1e9e6b;
+  --concluida-fraca: #e6f6ef;
+
+  /* ---- Prioridade (severidade) ---- */
+  --baixa: #8b94a3;
+  --media: #d6a62a;
+  --alta: #e14f5a;
+
+  /* ---- Semântica de mensagens ---- */
+  --sucesso: #1e9e6b;
+  --sucesso-fraca: #e6f6ef;
+  --erro: #e14f5a;
+  --erro-fraca: #fceaec;
+
+  /* ---- Tipografia ---- */
+  --fonte-display: 'Space Grotesk', 'Segoe UI', sans-serif;
+  --fonte-corpo: 'Inter', 'Segoe UI', sans-serif;
+  --fonte-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+  --raio: 10px;
+  --raio-sm: 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 body {
-  font-family: 'Segoe UI', Arial, sans-serif;
-  background-color: var(--fundo);
-  color: var(--cinza-texto);
+  font-family: var(--fonte-corpo);
+  background-color: var(--bg);
+  color: var(--tinta);
   min-height: 100vh;
+}
+.fundo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;          /* Fica atrás de todo o conteúdo */
 }
 
 /* ---------- Cabeçalho ---------- */
 .topo {
-  background-color: var(--azul-escuro);
-  color: var(--branco);
-  padding: 28px 20px;
-  text-align: center;
+  background-color: var(--tinta);
+  color: #f4f5f8;
+  padding: 28px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.eyebrow {
+  font-family: var(--fonte-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  color: #8f9bc2;
+  margin-bottom: 6px;
 }
 
 .topo h1 {
-  font-size: 1.6rem;
+  font-family: var(--fonte-display);
+  font-size: 1.7rem;
+  font-weight: 600;
 }
 
 .subtitulo {
-  opacity: 0.8;
+  opacity: 0.75;
   margin-top: 4px;
-  font-size: 0.95rem;
+  font-size: 0.92rem;
+}
+
+.topo .btn-primario {
+  flex-shrink: 0;
 }
 
 /* ---------- Layout geral ---------- */
 .container {
-  max-width: 900px;
-  margin: 24px auto;
-  padding: 0 16px;
+  max-width: 1180px;
+  margin: 28px auto;
+  padding: 0 20px 60px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 22px;
 }
 
 .cartao {
-  background-color: var(--branco);
-  border: 1px solid var(--cinza-borda);
-  border-radius: 10px;
-  padding: 24px;
+  background-color: var(--superficie);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
 }
 
-.cartao h2 {
-  color: var(--azul-escuro);
-  font-size: 1.15rem;
+/* ---------- Painel de formulário (retrátil) ---------- */
+.painel-formulario {
+  padding: 22px 24px;
+  animation: aparecer 0.18s ease-out;
+}
+
+.painel-formulario.escondido {
+  display: none;
+}
+
+.painel-cabecalho {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: 16px;
 }
 
-/* ---------- Formulário ---------- */
+.painel-cabecalho h2 {
+  font-family: var(--fonte-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.btn-fechar {
+  background: none;
+  border: none;
+  color: var(--tinta-suave);
+  font-size: 1rem;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  border-radius: var(--raio-sm);
+}
+
+.btn-fechar:hover {
+  background-color: var(--bg);
+}
+
 .formulario {
   display: flex;
   flex-direction: column;
@@ -77,24 +172,29 @@ body {
 }
 
 label {
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   font-weight: 600;
+  color: var(--tinta-suave);
 }
 
 input,
 select {
   width: 100%;
   padding: 10px 12px;
-  border: 1px solid var(--cinza-borda);
-  border-radius: 6px;
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-sm);
   font-size: 0.95rem;
-  background-color: var(--branco);
+  font-family: var(--fonte-corpo);
+  background-color: var(--superficie);
+  color: var(--tinta);
 }
 
 input:focus,
-select:focus {
-  outline: 2px solid var(--azul);
-  border-color: var(--azul);
+select:focus,
+button:focus-visible {
+  outline: 2px solid var(--primaria);
+  outline-offset: 1px;
+  border-color: var(--primaria);
 }
 
 .linha-dupla {
@@ -112,98 +212,254 @@ select:focus {
 .btn {
   padding: 10px 18px;
   border: none;
-  border-radius: 6px;
+  border-radius: var(--raio-sm);
   font-size: 0.95rem;
   font-weight: 600;
+  font-family: var(--fonte-corpo);
   cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.btn:active {
+  transform: scale(0.98);
 }
 
 .btn-primario {
-  background-color: var(--azul);
-  color: var(--branco);
+  background-color: var(--primaria);
+  color: #ffffff;
 }
 
 .btn-primario:hover {
-  background-color: #2159bd;
+  background-color: var(--primaria-hover);
 }
 
 .btn-secundario {
-  background-color: var(--azul-claro);
-  color: var(--azul-escuro);
+  background-color: var(--primaria-fraca);
+  color: var(--primaria);
+}
+
+.btn-secundario:hover {
+  background-color: #dbe2f9;
 }
 
 /* ---------- Mensagens de feedback ---------- */
 .mensagem {
   padding: 10px 12px;
-  border-radius: 6px;
+  border-radius: var(--raio-sm);
   font-size: 0.9rem;
 }
 
 .mensagem.sucesso {
-  background-color: #e3f5ea;
-  color: var(--verde);
+  background-color: var(--sucesso-fraca);
+  color: var(--sucesso);
 }
 
 .mensagem.erro {
-  background-color: #fdeaea;
-  color: var(--vermelho);
+  background-color: var(--erro-fraca);
+  color: var(--erro);
 }
 
-/* ---------- Tabela ---------- */
-.tabela-wrapper {
-  overflow-x: auto; /* rolagem horizontal em telas pequenas */
+/* ---------- Quadro kanban ---------- */
+.quadro {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  align-items: start;
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.92rem;
+.coluna {
+  background-color: var(--superficie);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 140px;
 }
 
-th, td {
-  text-align: left;
-  padding: 10px 12px;
-  border-bottom: 1px solid var(--cinza-borda);
+.coluna-cabecalho {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--borda);
 }
 
-th {
-  background-color: var(--azul-claro);
-  color: var(--azul-escuro);
+.coluna-etiqueta {
+  font-weight: 500;
 }
 
-/* ---------- Etiquetas de status e prioridade ---------- */
-.etiqueta {
-  display: inline-block;
-  padding: 3px 10px;
+.coluna-contador {
+  font-family: var(--fonte-mono);
+  font-size: 0.78rem;
+  padding: 1px 8px;
   border-radius: 999px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  white-space: nowrap;
+  background-color: var(--bg);
+  color: var(--tinta-suave);
 }
 
-.status-pendente   { background-color: #fdf3e0; color: #b07a1e; }
-.status-fazendo    { background-color: var(--azul-claro); color: var(--azul); }
-.status-concluida  { background-color: #e3f5ea; color: var(--verde); }
+.coluna-pendente { background-color: var(--pendente-fraca); }
+.coluna-pendente .coluna-etiqueta { color: var(--pendente); }
+.coluna-fazendo { background-color: var(--fazendo-fraca); }
+.coluna-fazendo .coluna-etiqueta { color: var(--fazendo); }
+.coluna-concluida { background-color: var(--concluida-fraca); }
+.coluna-concluida .coluna-etiqueta { color: var(--concluida); }
 
-.prioridade-baixa  { background-color: #eef1f5; color: var(--cinza-texto); }
-.prioridade-media  { background-color: var(--azul-claro); color: var(--azul); }
-.prioridade-alta   { background-color: #fdeaea; color: var(--vermelho); }
+.coluna-corpo {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+  transition: background-color 0.12s ease;
+}
 
-.acoes button {
+.coluna-corpo.sobre-arraste {
+  background-color: var(--primaria-fraca);
+}
+
+.coluna-vazia {
+  font-size: 0.85rem;
+  color: var(--tinta-suave);
+  font-style: italic;
+  text-align: center;
+  padding: 18px 8px;
+  border: 1px dashed var(--borda);
+  border-radius: var(--raio-sm);
+}
+
+/* ---------- Cards de tarefa ---------- */
+.cartao-tarefa {
+  background-color: var(--superficie);
+  border: 1px solid var(--borda);
+  border-left: 3px solid var(--baixa);
+  border-radius: var(--raio-sm);
+  padding: 12px 14px;
+  cursor: grab;
+  animation: aparecer 0.16s ease-out;
+  transition: box-shadow 0.15s ease, transform 0.1s ease, opacity 0.15s ease;
+}
+
+.cartao-tarefa:hover {
+  box-shadow: 0 4px 14px rgba(26, 33, 48, 0.08);
+}
+
+.cartao-tarefa.arrastando {
+  opacity: 0.45;
+  transform: scale(0.97);
+}
+
+.cartao-tarefa.prioridade-baixa { border-left-color: var(--baixa); }
+.cartao-tarefa.prioridade-media { border-left-color: var(--media); }
+.cartao-tarefa.prioridade-alta { border-left-color: var(--alta); }
+
+.cartao-topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.etiqueta-prioridade {
+  font-family: var(--fonte-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  padding: 2px 7px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.prioridade-baixa .etiqueta-prioridade { background-color: #eef0f4; color: var(--baixa); }
+.prioridade-media .etiqueta-prioridade { background-color: #faf1dc; color: var(--media); }
+.prioridade-alta .etiqueta-prioridade { background-color: var(--erro-fraca); color: var(--alta); }
+
+.cartao-acoes {
+  display: flex;
+  gap: 4px;
+}
+
+.cartao-acoes button {
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 1rem;
-  margin-right: 6px;
+  font-size: 0.95rem;
+  padding: 2px 4px;
+  border-radius: 4px;
+  line-height: 1;
 }
 
-.lista-vazia {
-  text-align: center;
-  padding: 20px;
-  font-style: italic;
+.cartao-acoes button:hover {
+  background-color: var(--bg);
 }
 
-/* Classe utilitária para esconder elementos via JS */
+.cartao-titulo {
+  font-family: var(--fonte-display);
+  font-size: 0.98rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+  word-break: break-word;
+}
+
+.cartao-descricao {
+  font-size: 0.85rem;
+  color: var(--tinta-suave);
+  margin-bottom: 10px;
+  word-break: break-word;
+}
+
+.cartao-mover-label {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-family: var(--fonte-mono);
+  font-size: 0.66rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--tinta-suave);
+  font-weight: 500;
+}
+
+.cartao-mover {
+  font-family: var(--fonte-corpo);
+  font-size: 0.82rem;
+  padding: 6px 8px;
+  text-transform: none;
+}
+
+/* ---------- Utilitário ---------- */
 .escondido {
   display: none;
+}
+
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------- Responsivo ---------- */
+@media (max-width: 860px) {
+  .quadro {
+    grid-template-columns: 1fr;
+  }
+
+  .topo {
+    padding: 22px 18px;
+  }
+
+  .container {
+    padding: 0 14px 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .linha-dupla {
+    grid-template-columns: 1fr;
+  }
 }

@@ -1,21 +1,41 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gerenciador de Tarefas</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet" />
+
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
   <header class="topo">
-    <h1>✅ Gerenciador de Tarefas</h1>
-    <p class="subtitulo">Organize o dia a dia da dupla</p>
+    <div class="topo-texto">
+      <p class="eyebrow">// dupla · devlog</p>
+      <h1>Gerenciador de Tarefas</h1>
+      <p class="subtitulo">Arraste, edite ou marque como concluída. Simples assim.</p>
+    </div>
+    <button id="btn-nova-tarefa" class="btn btn-primario">+ Nova tarefa</button>
   </header>
 
+   <img
+    src=https://img.magnific.com/fotos-premium/papel-de-parede-de-secretaria-criativo_941097-67554.jpg?semt=ais_hybrid&w=740&q=80
+    class="fundo">
+
   <main class="container">
-    <!-- ============ FORMULÁRIO DE CADASTRO / EDIÇÃO ============ -->
-    <section class="cartao">
-      <h2 id="titulo-form">Nova tarefa</h2>
+    <!-- ============ PAINEL DE FORMULÁRIO (escondido até clicar em "Nova tarefa") ============ -->
+    <section id="painel-formulario" class="cartao painel-formulario escondido">
+      <div class="painel-cabecalho">
+        <h2 id="titulo-form">Nova tarefa</h2>
+        <button id="btn-fechar-form" class="btn-fechar" aria-label="Fechar formulário">✕</button>
+      </div>
 
       <!-- Não usamos <form> com submit tradicional para evitar
            recarregar a página. O JS cuida do clique do botão. -->
@@ -24,10 +44,10 @@
         <input type="hidden" id="tarefa-id" />
 
         <label for="titulo">Título *</label>
-        <input type="text" id="titulo" placeholder="Ex: Estudar rotas do Express" />
+        <input type="text" id="titulo" placeholder="Ex: Estudar rotas do Express" autocomplete="off" />
 
         <label for="descricao">Descrição</label>
-        <input type="text" id="descricao" placeholder="Ex: Ler a doc e testar no Postman" />
+        <input type="text" id="descricao" placeholder="Ex: Ler a doc e testar no Postman" autocomplete="off" />
 
         <div class="linha-dupla">
           <div>
@@ -53,35 +73,39 @@
           <button id="btn-cancelar" class="btn btn-secundario escondido">Cancelar edição</button>
         </div>
 
-        <p id="mensagem" class="mensagem escondido"></p>
+        <p id="mensagem" class="mensagem escondido" role="status"></p>
       </div>
     </section>
 
-    <!-- ============ TABELA DE TAREFAS ============ -->
-    <section class="cartao">
-      <h2>Tarefas</h2>
-      <div class="tabela-wrapper">
-        <table>
-          <thead>
-            <tr>
-              <th>Título</th>
-              <th>Descrição</th>
-              <th>Prioridade</th>
-              <th>Status</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-          <tbody id="lista-tarefas">
-            <!-- As linhas são criadas pelo app.js -->
-          </tbody>
-        </table>
-        <p id="lista-vazia" class="lista-vazia escondido">
-          Nenhuma tarefa ainda. Adicione a primeira no formulário acima!
-        </p>
+    <!-- ============ QUADRO KANBAN ============ -->
+    <section class="quadro" id="quadro" aria-label="Quadro de tarefas por status">
+      <div class="coluna" data-status="pendente">
+        <div class="coluna-cabecalho coluna-pendente">
+          <span class="coluna-etiqueta">Pendente</span>
+          <span class="coluna-contador" id="contador-pendente">0</span>
+        </div>
+        <div class="coluna-corpo" id="coluna-corpo-pendente" data-status="pendente"></div>
+      </div>
+
+      <div class="coluna" data-status="fazendo">
+        <div class="coluna-cabecalho coluna-fazendo">
+          <span class="coluna-etiqueta">Fazendo</span>
+          <span class="coluna-contador" id="contador-fazendo">0</span>
+        </div>
+        <div class="coluna-corpo" id="coluna-corpo-fazendo" data-status="fazendo"></div>
+      </div>
+
+      <div class="coluna" data-status="concluida">
+        <div class="coluna-cabecalho coluna-concluida">
+          <span class="coluna-etiqueta">Concluída</span>
+          <span class="coluna-contador" id="contador-concluida">0</span>
+        </div>
+        <div class="coluna-corpo" id="coluna-corpo-concluida" data-status="concluida"></div>
       </div>
     </section>
   </main>
 
   <script src="app.js"></script>
 </body>
+
 </html>
