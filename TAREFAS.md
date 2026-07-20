@@ -12,10 +12,10 @@ que podem ser atribuídas de um para o outro.
 
 ## ✅ Semana 0 — Realinhamento (façam juntos, leva 1 dia)
 
-- [ ] Front dar `git pull` para receber o projeto novo
+- [x] Front dar `git pull` para receber o projeto novo
 - [x] Apagar o banco antigo `backend/estoque.db` (se existir) — o novo
       banco `tarefas.db` é criado sozinho na primeira execução
-- [ ] Ler juntos o novo "contrato" da API no `README.md` e o arquivo
+- [x] Ler juntos o novo "contrato" da API no `README.md` e o arquivo
       `routes/tarefas.js`, entendendo o que cada rota recebe e devolve
 - [x] Combinar os valores fixos: status (`pendente`, `fazendo`,
       `concluida`) e prioridade (`baixa`, `media`, `alta`)
@@ -42,12 +42,12 @@ O código desta semana **já está pronto** neste projeto. A missão de vocês �
       pelo status (pesquisar: `req.query` no Express)
 
 ### Front-end
-- [ ] Abrir o `index.html` no navegador com o servidor rodando e testar
+- [x] Abrir o `index.html` no navegador com o servidor rodando e testar
       criar, editar, concluir e excluir tarefas
-- [ ] Abrir o DevTools (F12) → aba **Network** e observar as requisições
+- [x] Abrir o DevTools (F12) → aba **Network** e observar as requisições
       que o `app.js` faz para a API
-- [ ] Personalizar o visual: cores, fontes, nome do app da dupla
-- [ ] **Desafio:** mostrar o campo novo (`prazo`) no formulário e na tabela
+- [x] Personalizar o visual: cores, fontes, nome do app da dupla
+- [x] **Desafio:** mostrar o campo novo (`prazo`) no formulário e na tabela
 - [ ] **Desafio:** botões de filtro acima da tabela (Todas / Pendentes /
       Fazendo / Concluídas) usando a rota nova do back
 - [ ] **Desafio:** riscar (line-through) o título das tarefas concluídas
