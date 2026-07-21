@@ -38,6 +38,7 @@ db.exec(`
     descricao  TEXT DEFAULT '',                                 -- opcional (vazio se não vier)
     status     TEXT NOT NULL DEFAULT 'pendente',                -- nasce como 'pendente'
     prioridade TEXT NOT NULL DEFAULT 'media',                   -- nasce como 'media'
+    prazo      TEXT NOT NULL DEFAULT 'sem prazo',                -- nasce como 'sem prazo'
     criado_em  TEXT DEFAULT (datetime('now', 'localtime'))      -- carimbo automático de data/hora
   )
 `);

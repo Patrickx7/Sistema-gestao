@@ -63,7 +63,7 @@ router.get('/:id', (req, res) => {
 // ------------------------------------------------------------
 router.post('/', (req, res) => {
   // Pega os campos de dentro da "carta" (req.body) e cria uma variável pra cada um.
-  const { titulo, descricao, status, prioridade } = req.body;
+  const { titulo, descricao, status, prioridade, prazo } = req.body;
 
   // --- VALIDAÇÕES (o "segurança" conferindo antes de deixar entrar) ---
   // Título é obrigatório. .trim() tira espaços das pontas. 400 = "você mandou errado".
@@ -82,8 +82,8 @@ router.post('/', (req, res) => {
   // INSERT = guardar uma linha nova na despensa. .run() = usado quando MODIFICA o banco.
   // Cada ? recebe, na ordem, um valor do .run(). O "|| 'algo'" = valor padrão se vier vazio.
   const resultado = db
-    .prepare('INSERT INTO tarefas (titulo, descricao, status, prioridade) VALUES (?, ?, ?, ?)')
-    .run(titulo.trim(), descricao || '', status || 'pendente', prioridade || 'media');
+    .prepare('INSERT INTO tarefas (titulo, descricao, status, prioridade, prazo) VALUES (?, ?, ?, ?, ?)')
+    .run(titulo.trim(), descricao || '', status || 'pendente', prioridade || 'media', prazo || 'sem prazo');
 
   // Busca a tarefa recém-criada (pelo id que o banco acabou de gerar) pra devolver completa.
   const novaTarefa = db
@@ -97,7 +97,7 @@ router.post('/', (req, res) => {
 // PUT /tarefas/:id -> ATUALIZA uma tarefa existente
 // ------------------------------------------------------------
 router.put('/:id', (req, res) => {
-  const { titulo, descricao, status, prioridade } = req.body;
+  const { titulo, descricao, status, prioridade, prazo} = req.body;
   const { id } = req.params; // o número da tarefa a atualizar
 
   // Primeiro confere se a tarefa EXISTE (senão, 404).
@@ -120,12 +120,13 @@ router.put('/:id', (req, res) => {
   // UPDATE ... WHERE id = ?  ->  o WHERE é ESSENCIAL: muda SÓ a tarefa daquele id
   // (sem o WHERE, mudaria TODAS!). "|| existente.status" = mantém o que já estava, se não vier novo.
   db.prepare(
-    'UPDATE tarefas SET titulo = ?, descricao = ?, status = ?, prioridade = ? WHERE id = ?'
+    'UPDATE tarefas SET titulo = ?, descricao = ?, status = ?, prioridade = ?, prazo = ? WHERE id = ?'
   ).run(
     titulo.trim(),
     descricao || '',
     status || existente.status,
     prioridade || existente.prioridade,
+    prazo || existente.prazo,
     id
   );
 
