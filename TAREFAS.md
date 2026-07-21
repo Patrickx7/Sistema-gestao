@@ -36,7 +36,7 @@ O código desta semana **já está pronto** neste projeto. A missão de vocês �
       todas as 5 rotas no Postman (GET, GET por id, POST, PUT, DELETE)
 - [x] Ler `server.js`, `db.js` e `routes/tarefas.js` e escrever com as
       próprias palavras o que cada trecho faz (pode ser em comentários)
-- [ ] **Desafio:** adicionar o campo `prazo` (data limite) na tarefa
+- [x] **Desafio:** adicionar o campo `prazo` (data limite) na tarefa
       (alterar a tabela no `db.js` e as rotas POST/PUT)
 - [ ] **Desafio:** criar a rota `GET /tarefas?status=pendente` que filtra
       pelo status (pesquisar: `req.query` no Express)
