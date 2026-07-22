@@ -64,15 +64,7 @@ body {
   background-color: var(--bg);
   color: var(--tinta);
   min-height: 100vh;
-}
-.fundo {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: -1;          /* Fica atrás de todo o conteúdo */
+  background-color: #1a2130
 }
 
 /* ---------- Cabeçalho ---------- */
@@ -196,6 +188,11 @@ button:focus-visible {
   outline-offset: 1px;
   border-color: var(--primaria);
 }
+
+.form-group {
+margin-bottom: 10px;
+}
+
 
 .linha-dupla {
   display: grid;
