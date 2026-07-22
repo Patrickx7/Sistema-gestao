@@ -108,7 +108,7 @@ function criarCartao(tarefa) {
       mover para
       <select class="cartao-mover" data-id="${tarefa.id}">
         <option value="pendente" ${tarefa.status === 'pendente' ? 'selected' : ''}>Pendente</option>
-        <option value="fazendo" ${tarefa.status === 'fazendo' ? 'selected' : ''}>Fazendo</option>
+        <option value="fazendo" ${tarefa.status === 'fazendo' ? 'selected' : ''}>Em andamento</option>
         <option value="concluida" ${tarefa.status === 'concluida' ? 'selected' : ''}>Concluída</option>
       </select>
     </label>
